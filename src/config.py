@@ -1,3 +1,9 @@
+# # Path configurations
+DATA_PATH = "data/dataset/en.openfoodfacts.org.products.csv"
+SAMPLE_PATH = "data/dataset/sample_10000.csv"
+# MODEL_SAVE_PATH = "data/results/trained_model.pkl"
+# RESULTS_PATH = "data/results/model_results.json"
+
 ### Exemple of Config file for all the pipeline
 # # config.py
 
