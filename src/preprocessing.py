@@ -59,9 +59,9 @@ class DataPreprocessor:
         Encode non-numerical columns based on their cardinality.
         """
         encoded_dataframes = []
-        one_hot_encoded_columns = []
-        frequency_encoded_columns = []
-        hashed_columns = []
+        one_hot_encoded_columns = [] # An array of columns to be display after encoding to be aware of which columns is encoded in One-Hot Encoding
+        frequency_encoded_columns = [] # An array of columns to be display after encoding to be aware of which columns is encoded in Frequency Encoding
+        hashed_columns = [] # An array of columns to be display after encoding to be aware of which columns is encoded in Hashing Encoding
 
         for column in self.non_numerical_columns:
             cardinality = self.data[column].nunique() / len(self.data)
@@ -102,7 +102,17 @@ class DataPreprocessor:
         else:
             self.data = self.data[self.numerical_columns]
 
-    def preprocess(self, columns_to_drop=None, missing_value_threshold=0.5, imputation_strategy='mean', knn_neighbors=5):
+    def save_data(self, save_path="./data/processed/preprocessed_sample_10000.csv"):
+        """
+        Save the preprocessed data to a CSV file and display its information.
+
+        :param save_path: The path where the file will be saved. Default is '../data/processed/preprocessed_sample_10000.csv'.
+        """
+        self.data.to_csv(save_path, index=False)
+        print(f"Preprocessed data saved to '{save_path}'.")
+        self.data.info()
+
+    def run(self, columns_to_drop=None, missing_value_threshold=0.5, imputation_strategy='mean', knn_neighbors=5):
         """
         Perform the full preprocessing pipeline.
         """
@@ -110,30 +120,31 @@ class DataPreprocessor:
         self.determine_column_types()
         self.impute_missing_values(imputation_strategy, knn_neighbors)
         self.encode_non_numerical_columns()
+        self.save_data()
         print("Preprocessing complete!")
         return self.data
 
 
-if __name__ == "__main__":
-    # Define the path to the dataset
-    dataset_path = "../data/dataset/sample_10000.csv"
+# if __name__ == "__main__":
+#     # Define the path to the dataset
+#     dataset_path = "../data/dataset/sample_10000.csv"
 
-    # Specify columns to drop
-    columns_to_drop = ["code", "url", "creator", "created_t", "created_datetime", "last_modified_t", "last_modified_datetime", "packaging", "packaging_tags", "brands_tags", "categories_tags", "categories_fr", "origins_tags", "manufacturing_places", "manufacturing_places_tags", "labels_tags", "labels_fr", "emb_codes", "emb_codes_tags", "first_packaging_code_geo", "cities", "cities_tags", "purchase_places", "countries_tags", "countries_fr", "image_ingredients_url", "image_ingredients_small_url", "image_nutrition_url", "image_nutrition_small_url", "image_small_url", "image_url", "last_updated_t", "last_updated_datetime", "last_modified_by"]
+#     # Specify columns to drop
+#     columns_to_drop = ["code", "url", "creator", "created_t", "created_datetime", "last_modified_t", "last_modified_datetime", "packaging", "packaging_tags", "brands_tags", "categories_tags", "categories_fr", "origins_tags", "manufacturing_places", "manufacturing_places_tags", "labels_tags", "labels_fr", "emb_codes", "emb_codes_tags", "first_packaging_code_geo", "cities", "cities_tags", "purchase_places", "countries_tags", "countries_fr", "image_ingredients_url", "image_ingredients_small_url", "image_nutrition_url", "image_nutrition_small_url", "image_small_url", "image_url", "last_updated_t", "last_updated_datetime", "last_modified_by"]
 
-    # Initialize the preprocessor
-    preprocessor = DataPreprocessor(file_path=dataset_path)
+#     # Initialize the preprocessor
+#     preprocessor = DataPreprocessor(file_path=dataset_path)
 
-    # Preprocess the data
-    preprocessed_data = preprocessor.preprocess(
-        columns_to_drop=columns_to_drop,
-        missing_value_threshold=0.3,  # Drop columns with more than 30% missing values
-        imputation_strategy='mean',  # Choose 'mean', 'median', 'most_frequent', or 'knn' for imputation
-        knn_neighbors=5  # Number of neighbors for KNN Imputer
-    )
+#     # Preprocess the data
+#     preprocessed_data = preprocessor.run(
+#         columns_to_drop=columns_to_drop,
+#         missing_value_threshold=0.3,  # Drop columns with more than 30% missing values
+#         imputation_strategy='mean',  # Choose 'mean', 'median', 'most_frequent', or 'knn' for imputation
+#         knn_neighbors=5  # Number of neighbors for KNN Imputer
+#     )
 
-    # Save the preprocessed data to a new CSV file
-    preprocessed_data.to_csv("../data/processed/preprocessed_sample_10000.csv", index=False)
-    print("Preprocessed data saved to '../data/processed/preprocessed_sample_10000.csv'.")
+#     # Save the preprocessed data to a new CSV file
+#     preprocessed_data.to_csv("../data/processed/preprocessed_sample_10000.csv", index=False)
+#     print("Preprocessed data saved to '../data/processed/preprocessed_sample_10000.csv'.")
 
-    preprocessed_data.info()
+#     preprocessed_data.info()
