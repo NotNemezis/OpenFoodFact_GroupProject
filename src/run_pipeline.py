@@ -16,9 +16,9 @@ def main():
     logging.info("Starting the data science pipeline...")
 
     # Step 1: Load data
-    logging.info("Loading data...")
-    data_loader = data_loading.DataLoader(config.DATA_PATH)
-    data_loader.run(sample_size=10000, save_path="./data/dataset/sample_10000.csv", save_file_type="csv")
+    # logging.info("Loading data...")
+    # data_loader = data_loading.DataLoader(config.DATA_PATH)
+    # data_loader.run(sample_size=10000, save_path="./data/dataset/sample_10000.csv", save_file_type="csv")
 
     # Step 2: Preprocess data
     logging.info("Preprocessing data...")
