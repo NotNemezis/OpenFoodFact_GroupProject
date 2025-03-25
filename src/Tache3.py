@@ -1,6 +1,15 @@
+import pandas as pd
+import numpy as np
+from sklearn.ensemble import IsolationForest
+from sklearn.svm import OneClassSVM
+from scipy.stats import zscore
+import os
 
+# Charger les données depuis un fichier CSV
+file_path = "c:/Users/emili/OneDrive/Bureau/DP2/OpenFoodFact_GroupProject/data/dataset/openfoodfacts_sample.csv"
+df = pd.read_csv(file_path, sep='\t', encoding="utf-8", low_memory=True)
 
-""" Sélectionner les colonnes numériques pour l'analyse des outliers
+# Sélectionner les colonnes numériques pour l'analyse des outliers
 numeric_columns = df.select_dtypes(include=[np.number]).columns.tolist()
 
 # Fonction 1 : Détection des outliers avec le critère de Tukey
@@ -27,7 +36,7 @@ def zscore_outliers(df, columns, threshold=3):
 # Fonction 3 : Détection des outliers avec Isolation Forest
 def isolation_forest_outliers(df, columns):
     outliers = {}
-    model = IsolationForest(contamination=0.05)
+    model = IsolationForest(contamination=0.05, random_state=42)
     for col in columns:
         df_cleaned = df[[col]].dropna()
         if df_cleaned.empty:
@@ -38,7 +47,7 @@ def isolation_forest_outliers(df, columns):
 # Fonction 4 : Détection des outliers avec One-Class SVM
 def one_class_svm_outliers(df, columns):
     outliers = {}
-    model = OneClassSVM(nu=0.05)
+    model = OneClassSVM(nu=0.05, kernel="rbf", gamma="scale")
     for col in columns:
         df_cleaned = df[[col]].dropna()
         if df_cleaned.empty:
@@ -48,17 +57,22 @@ def one_class_svm_outliers(df, columns):
 
 # Fonction pour gérer les outliers en fonction de la stratégie choisie
 def handle_outliers(df, outlier_indices, strategy="remove"):
-    
+    """
     Stratégie pour traiter les outliers :
     - "keep" : Conserver les outliers
-    - "impute" : Remplacer les outliers par la médiane
+    - "impute" : Remplacer les outliers par la médiane (pour les colonnes numériques uniquement)
     - "remove" : Supprimer les outliers
-    
+    """
+    # Convertir les indices des outliers en liste
+    outlier_indices = list(outlier_indices)
+
     if strategy == "remove":
         return df.drop(index=outlier_indices)
     
     elif strategy == "impute":
-        for col in df.columns:
+        # Limiter l'imputation aux colonnes numériques uniquement
+        numeric_columns = df.select_dtypes(include=[np.number]).columns
+        for col in numeric_columns:
             median_value = df[col].median()
             df.loc[outlier_indices, col] = median_value
         return df
@@ -92,26 +106,15 @@ for strategy in strategies:
     print(f"Données après application de la stratégie '{strategy}':")
     print(df_processed.head())
     
+    # Définir le chemin du fichier de sortie
+    output_dir = "c:/Users/emili/OneDrive/Bureau/DP2/OpenFoodFact_GroupProject/data/dataset"
+    output_file = f"{output_dir}/openfoodfacts_processed_{strategy}.csv"
+    
+    # Vérifier si le dossier existe
+    if not os.path.exists(output_dir):
+        print(f"❌ Le dossier spécifié n'existe pas : {output_dir}")
+        exit(1)  # Arrêter le script si le dossier n'existe pas
+    
     # Sauvegarder les résultats dans un fichier CSV
-    output_file = f"data/dataset/openfoodfacts_processed_{strategy}.csv"
     df_processed.to_csv(output_file, index=False, sep='\t', encoding="utf-8")
-    print(f"✅ Résultats sauvegardés dans '{output_file}'.")"""
-
-"""# Vérification des valeurs manquantes
-    print("\n🔍 Vérification des valeurs manquantes...")
-    missing_report = check_missing_values(df)
-    print(missing_report)
-
-    # Détection des valeurs aberrantes dans une colonne numérique
-    # Affichage des résultats de la détection
-    print("\nOutliers détectés avec le critère de Tukey :")
-    print(tukey_outliers_result)
-
-    print("\nOutliers détectés avec le Z-score :")
-    print(zscore_outliers_result)
-
-    print("\nOutliers détectés avec Isolation Forest :")
-    print(isolation_forest_outliers_result)
-
-    print("\nOutliers détectés avec One-Class SVM :")
-    print(one_class_svm_outliers_result)"""
+    print(f"✅ Résultats sauvegardés dans '{output_file}'.")
