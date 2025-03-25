@@ -1,3 +1,15 @@
+# # Path configurations
+DATA_PATH = "data/dataset/en.openfoodfacts.org.products.csv"
+SAMPLE_PATH = "data/dataset/sample_10000.csv"
+
+# # Data preprocessing parameters
+PREPROCESSING_PARAMS = {
+    "columns_to_drop": ["code", "url", "creator", "created_t", "created_datetime", "last_modified_t", "last_modified_datetime", "packaging", "packaging_tags", "brands_tags", "categories_tags", "categories_fr", "origins_tags", "manufacturing_places", "manufacturing_places_tags", "labels_tags", "labels_fr", "emb_codes", "emb_codes_tags", "first_packaging_code_geo", "cities", "cities_tags", "purchase_places", "countries_tags", "countries_fr", "image_ingredients_url", "image_ingredients_small_url", "image_nutrition_url", "image_nutrition_small_url", "image_small_url", "image_url", "last_updated_t", "last_updated_datetime", "last_modified_by"],  # List of columns to drop, e.g., ["column1", "column2"]
+    "missing_value_threshold": 0.3,  # Threshold for dropping columns with missing values
+    "imputation_strategy": "knn",  # Options: "mean", "median", "most_frequent", "constant", "knn"
+    "knn_neighbors": 5,  # Number of neighbors for KNN imputation
+}
+
 ### Exemple of Config file for all the pipeline
 # # config.py
 
