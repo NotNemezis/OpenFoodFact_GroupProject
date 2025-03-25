@@ -86,4 +86,4 @@ def highly_correlated(path: str, threshold=0.9) -> list:
 # Exemple d'utilisation
 path = "https://static.openfoodfacts.org/data/en.openfoodfacts.org.products.csv.gz"
 correlated_columns = highly_correlated(path, threshold=0.9)
-print(f"Colonnes fortement corrélées : {correlated_columns}") 
+print(f"Colonnes fortement corrélées : {correlated_columns}")
