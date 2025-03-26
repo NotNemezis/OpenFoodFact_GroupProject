@@ -79,11 +79,6 @@ def analyze_data_quality(df: pd.DataFrame) -> Dict:
     n_rows, n_cols = df.shape  # Dimensions du DataFrame
     dtypes = df.dtypes.value_counts()  # Comptage des types de données
     
-    # Calcul des valeurs manquantes
-    missing_values = df.isnull().sum()
-    missing_percentages = (missing_values / n_rows * 100).round(2)
-    columns_with_missing = missing_values[missing_values > 0].index.tolist()
-    
     # Comptage des valeurs uniques par colonne
     unique_counts = df.nunique()
     unique_percentages = (unique_counts / n_rows * 100).round(2)
@@ -106,11 +101,6 @@ def analyze_data_quality(df: pd.DataFrame) -> Dict:
     return {
         'dimensions': {'rows': n_rows, 'columns': n_cols},
         'dtypes': dtypes.to_dict(),
-        'missing_values': {
-            'counts': missing_values.to_dict(),
-            'percentages': missing_percentages.to_dict(),
-            'columns_with_missing': columns_with_missing
-        },
         'unique_values': {
             'counts': unique_counts.to_dict(),
             'percentages': unique_percentages.to_dict()
@@ -125,30 +115,6 @@ def analyze_data_quality(df: pd.DataFrame) -> Dict:
             'per_column': memory_usage.to_dict()
         }
     }
-
-# Analyse des valeurs manquantes
-def check_missing_values(df: pd.DataFrame, threshold: float = 60) -> pd.Series:
-    """
-    Affiche les colonnes avec des valeurs manquantes dépassant un seuil donné.
-
-    Args:
-        df: DataFrame pandas
-        threshold: Seuil en pourcentage pour afficher les colonnes avec trop de valeurs manquantes
-        
-    Returns:
-        pd.Series: Série avec le pourcentage de valeurs manquantes
-    """
-    missing_values = df.isnull().mean() * 100  # Calcul des pourcentages de valeurs manquantes
-    df_missing = missing_values[missing_values > 0].sort_values(ascending=False)
-
-    if df_missing.empty:
-        print("✅ Aucune valeur manquante.")
-    else:
-        print(f"⚠️ {len(df_missing)} colonnes avec des valeurs manquantes.")
-        print(df_missing[df_missing > threshold])
-
-    return df_missing
-
 
 # Exemple d'utilisation
 if __name__ == "__main__":
@@ -182,13 +148,7 @@ if __name__ == "__main__":
     for dtype, count in quality_report['dtypes'].items():
         print(f"{dtype}: {count}")
 
-    # Valeurs manquantes
-    print("\n🔹 Valeurs manquantes :")
-    print("Colonnes avec des valeurs manquantes :")
-    for col, count in quality_report['missing_values']['counts'].items():
-        if count > 0:
-            percentage = quality_report['missing_values']['percentages'][col]
-            print(f"- {col} : {count} valeurs manquantes ({percentage}%)")
+    
 
     # Valeurs uniques
     print("\n🔹 Valeurs uniques :")
