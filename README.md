@@ -35,10 +35,3 @@ OPENFOODFACT_GROUPPROJECT/
 │── requirements.txt            # Liste des dépendances
 │── README.md                   # Documentation du projet
 ```
-
----
-
-## 🚀 Installation & Utilisation  
-
-### 📥 Prérequis  
-Assurez-vous d'avoir **Python 3.x** installé ainsi que `pip`. Vous pouvez
