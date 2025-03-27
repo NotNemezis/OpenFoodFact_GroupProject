@@ -1,5 +1,6 @@
 # Ignore the 'en cours' directory
 en cours/
+
 # Ignore __pycache__ directories
 __pycache__/
 
