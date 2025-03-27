@@ -1,3 +1,5 @@
+from sklearn.decomposition import PCA
+from sklearn.discriminant_analysis import StandardScaler
 from sklearn.feature_selection import VarianceThreshold, SelectKBest, f_classif, SelectPercentile, GenericUnivariateSelect, SelectFromModel, SequentialFeatureSelector
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import Lasso, LogisticRegression
@@ -146,3 +148,55 @@ class SequentialFeatureSelector:
         print(f"Features sélectionnées : {selected_features}")
         print(f"Nouvelle forme du DataFrame : {X_selected_df.shape}")
         return X_selected_df
+    
+class PCAProcessor:
+        """
+        Classe pour effectuer une Analyse en Composantes Principales (ACP) sur des données standardisées.
+        """
+
+        def __init__(self, data):
+            """
+            Initialise la classe avec les données.
+
+            Arguments :
+                data (pd.DataFrame) : Les données à analyser.
+            """
+            self.data = data
+            self.scaled_data = None
+            self.pca_components = None
+            self.explained_variance_ratio = None
+
+        def scale_data(self):
+            """
+            Standardise les données en utilisant StandardScaler.
+
+            Retour :
+            np.ndarray : Les données standardisées.
+            """
+            scaler = StandardScaler()
+            self.scaled_data = scaler.fit_transform(self.data)
+            return self.scaled_data
+
+        def apply_pca(self, n_components=5):
+            """
+            Applique une Analyse en Composantes Principales (ACP) sur les données standardisées.
+
+            Arguments :
+            n_components (int) : Nombre de composantes principales à conserver (par défaut 5).
+
+            Retour :
+            tuple :
+                - np.ndarray : Les données projetées dans l'espace des composantes principales.
+                - np.ndarray : La proportion de variance expliquée par chaque composante.
+            """
+            # Utilisation de la méthode scale_data pour standardiser les données
+            self.scale_data()
+
+            # Application de l'ACP
+            pca = PCA(n_components=n_components)
+            self.pca_components = pca.fit_transform(self.scaled_data)
+
+            # Récupération de la variance expliquée par chaque composante principale
+            self.explained_variance_ratio = pca.explained_variance_ratio_
+
+            return self.pca_components, self.explained_variance_ratio
