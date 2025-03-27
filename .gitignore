@@ -1,0 +1,14 @@
+#Ignore pycache directories
+pycache/
+
+#Ignore .pyc files
+*.pyc
+
+#Ignore .DS_Store files
+*.DS_Store
+
+#Ignore specific dataset file
+en.openfoodfacts.org.products.csv
+
+#Ignore src folder
+clean_data/
