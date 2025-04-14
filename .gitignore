@@ -12,3 +12,6 @@ en.openfoodfacts.org.products.csv
 
 #Ignore src folder
 clean_data/
+
+# Ignore the 'en cours' directory
+en cours/

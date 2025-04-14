@@ -1,5 +1,6 @@
 import pandas as pd
 
+
 # URL du dataset
 path = "https://static.openfoodfacts.org/data/en.openfoodfacts.org.products.csv.gz"
 
