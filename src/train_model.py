@@ -24,7 +24,7 @@ class DataPreprocessor:
     Classe pour le prétraitement des données du dataset Open Food Facts.
     """
 
-    def __init__(self, file_path="datasets/en.openfoodfacts.org.products.csv", nrows=30000):
+    def __init__(self, file_path="../openfoodsfacts_sample.csv", nrows=30000):
         """
         Initialise la classe en chargeant un échantillon du dataset Open Food Facts.
 
