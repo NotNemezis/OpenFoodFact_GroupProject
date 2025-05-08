@@ -6,7 +6,7 @@ import os
 # Add the parent directory of 'src' to sys.path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../src')))
 
-import data_loading, preprocessing, config
+import data_loading, preprocessing, feature_engineering, config
 
 
 # Configure logging
@@ -16,18 +16,31 @@ def main():
     logging.info("Starting the data science pipeline...")
 
     # Step 1: Load data
-    # logging.info("Loading data...")
-    # data_loader = data_loading.DataLoader(config.DATA_PATH)
-    # data_loader.run(sample_size=10000, save_path="./data/dataset/sample_10000.csv", save_file_type="csv")
+    logging.info("Loading data...")
+    data_loader = data_loading.DataLoader(config.DATA_PATH)
+    data_loader.run(sample_size=10000, save_path="./data/dataset/sample_10000.csv", save_file_type="csv")
 
     # Step 2: Preprocess data
     logging.info("Preprocessing data...")
     data_preprocessing = preprocessing.DataPreprocessor(config.SAMPLE_PATH)
     data_preprocessing.run(columns_to_drop=config.PREPROCESSING_PARAMS["columns_to_drop"],  missing_value_threshold=config.PREPROCESSING_PARAMS["missing_value_threshold"], imputation_strategy=config.PREPROCESSING_PARAMS["imputation_strategy"], knn_neighbors=config.PREPROCESSING_PARAMS["knn_neighbors"] )
 
-    # # Step 3: Feature Engineering
-    # logging.info("Generating features...")
-    # df = feature_engineering.transform_features(df, config.FEATURE_PARAMS)
+    # Step 3: Feature Engineering
+    logging.info("Generating features...")
+    data_feature_engineering = feature_engineering.FeatureEngineering(config.DATA_PROCESSED_PATH)
+    data_feature_engineering.run(
+        method=config.FEATURE_PARAMS.get("method", None),
+        threshold=config.FEATURE_PARAMS.get("threshold", None),
+        target_column=config.FEATURE_PARAMS.get("target_column", None),
+        k=config.FEATURE_PARAMS.get("k", None),
+        percentile=config.FEATURE_PARAMS.get("percentile", None),
+        score_func=config.FEATURE_PARAMS.get("score_func", None),
+        mode=config.FEATURE_PARAMS.get("mode", None),
+        param=config.FEATURE_PARAMS.get("param", None),
+        threshold_model=config.FEATURE_PARAMS.get("threshold_model", None),
+        n_features_to_select=config.FEATURE_PARAMS.get("n_features_to_select", None),
+        direction=config.FEATURE_PARAMS.get("direction", None)
+    )
 
     # # Step 4: Train/Test Split
     # logging.info("Splitting dataset into train and test sets...")

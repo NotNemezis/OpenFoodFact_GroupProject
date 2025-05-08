@@ -106,11 +106,11 @@ class DataPreprocessor:
         else:
             self.data = self.data[self.numerical_columns]
 
-    def save_data(self, save_path="./data/processed/preprocessed_sample_10000.csv"):
+    def save_data(self, save_path="./data/pre_processed/preprocessed_sample_10000.csv"):
         """
         Save the preprocessed data to a CSV file and display its information.
 
-        :param save_path: The path where the file will be saved. Default is '../data/processed/preprocessed_sample_10000.csv'.
+        :param save_path: The path where the file will be saved. Default is '../data/pre_processed/preprocessed_sample_10000.csv'.
         """
         self.data.to_csv(save_path, index=False)
         logging.info(f"Preprocessed data saved to '{save_path}'.")
