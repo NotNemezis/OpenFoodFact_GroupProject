@@ -1,14 +1,17 @@
-# Ignore the 'en cours' directory
-en cours/
+#Ignore pycache directories
+pycache/
 
-# Ignore __pycache__ directories
-__pycache__/
-
-# Ignore .pyc files
+#Ignore .pyc files
 *.pyc
 
-# Ignore .DS_Store files
+#Ignore .DS_Store files
 *.DS_Store
 
-# Ignore specific dataset file
+#Ignore specific dataset file
 en.openfoodfacts.org.products.csv
+
+#Ignore src folder
+clean_data/
+
+# Ignore the 'en cours' directory
+en cours/
