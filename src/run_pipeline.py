@@ -16,14 +16,14 @@ def main():
     logging.info("Starting the data science pipeline...")
 
     # Step 1: Load data
-    # logging.info("Loading data...")
-    # data_loader = data_loading.DataLoader(config.DATA_PATH)
-    # data_loader.run(sample_size=10000, save_path="./data/dataset/sample_10000.csv", save_file_type="csv")
+    logging.info("Loading data...")
+    data_loader = data_loading.DataLoader(config.DATA_PATH)
+    data_loader.run(sample_size=10000, save_path="./data/dataset/sample_10000.csv", save_file_type="csv")
 
     # Step 2: Preprocess data
-    # logging.info("Preprocessing data...")
-    # data_preprocessing = preprocessing.DataPreprocessor(config.SAMPLE_PATH)
-    # data_preprocessing.run(columns_to_drop=config.PREPROCESSING_PARAMS["columns_to_drop"],  missing_value_threshold=config.PREPROCESSING_PARAMS["missing_value_threshold"], imputation_strategy=config.PREPROCESSING_PARAMS["imputation_strategy"], knn_neighbors=config.PREPROCESSING_PARAMS["knn_neighbors"] )
+    logging.info("Preprocessing data...")
+    data_preprocessing = preprocessing.DataPreprocessor(config.SAMPLE_PATH)
+    data_preprocessing.run(columns_to_drop=config.PREPROCESSING_PARAMS["columns_to_drop"],  missing_value_threshold=config.PREPROCESSING_PARAMS["missing_value_threshold"], imputation_strategy=config.PREPROCESSING_PARAMS["imputation_strategy"], knn_neighbors=config.PREPROCESSING_PARAMS["knn_neighbors"] )
 
     # Step 3: Feature Engineering
     logging.info("Generating features...")

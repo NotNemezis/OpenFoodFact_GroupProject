@@ -47,32 +47,32 @@ PREPROCESSING_PARAMS = {
 # Feature engineering parameters
 FEATURE_PARAMS = {
     # Common parameters
-    "method": "aic",     # Feature selection method - Options: "correlation", "variance", "anova_k_best", "anova_percentile", "generic_univariate", "random_forest", "lasso", "sequential", "aic"
+    "method": "correlation",     # Feature selection method - Options: "correlation", "variance", "anova_k_best", "anova_percentile", "generic_univariate", "random_forest", "lasso", "sequential", "aic"
 
     # Parameters only for "correlation" and "variance" methods
-    #"threshold": 0.9,  # Correlation threshold (used only for the "correlation" method)
+    "threshold": 0.9,  # Correlation threshold (used only for the "correlation" method)
 
     ## Parameters for "anova_k_best", "anova_percentile", "generic_univariate", "random_forest", "lasso", "sequential", "aic" methods
     "target_column": ['energy_100g'],  # ex: ["code", "url"]
 
     ## Parameters for "anova_k_best", "anova_percentile", "generic_univariate"
-    #"score_func": f_classif,  # Options: f_classif, f_regression, mutual_info_regression
+    "score_func": f_classif,  # Options: f_classif, f_regression, mutual_info_regression
 
     ## Parameters for "anova_k_best" method
-    #"k": 10,  # Number of top features to select
+    "k": 10,  # Number of top features to select
 
     ## Parameters for "anova_percentile" method
-    #"percentile": 10,  # Percentage of the best features to select 
+    "percentile": 10,  # Percentage of the best features to select 
 
     ## Parameters for "generic_univariate" method
-    #"mode": "fdr",  # Options: "percentile", "k_best", "fpr", "fdr", "fwe"
+    "mode": "fdr",  # Options: "percentile", "k_best", "fpr", "fdr", "fwe"
     ##     - If mode="percentile", param is a percentage (e.g., param=20 for 20% of the best features).
     ##     - If mode="k_best", param is an integer (e.g., param=5 to keep the 5 best features).
     ##     - If mode="fpr", "fdr", or "fwe", param is a p-value threshold (e.g., param=0.05 for a 5% p-value threshold).
-    #"param": 10, # - param (int or float): Parameter for "generic_univariate" depending on the mode:
+    "param": 10, # - param (int or float): Parameter for "generic_univariate" depending on the mode:
 
     # Parameters for "random_forest" or "lasso" methods
-    #"threshold_model": "mean",  # Options: "mean", "median", "1.25*mean"
+    "threshold_model": "mean",  # Options: "mean", "median", "1.25*mean"
 
     # Parameters for "sequential" or "aic" methods
     "n_features_to_select": 10,  # Maximum number of features to select 
